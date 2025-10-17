@@ -886,6 +886,7 @@ pub mod persist {
                     })?
                     .0;
             let opts = VfsOptions::restore(&state.options)?;
+            println!("Vfs options is empty: {:?}", opts.in_opts.is_empty());
             self.initialized
                 .store(!opts.in_opts.is_empty(), Ordering::Release);
             self.opts.store(Arc::new(opts));
