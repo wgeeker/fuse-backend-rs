@@ -35,7 +35,6 @@ use crate::api::pseudo_fs::PseudoFs;
 #[cfg(feature = "async-io")]
 mod async_io;
 mod sync_io;
-mod sync_io;
 
 /// Current directory
 pub const CURRENT_DIR_CSTR: &[u8] = b".\0";
