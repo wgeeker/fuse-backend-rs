@@ -54,6 +54,7 @@ impl FileSystem for Vfs {
             for fs in superblocks.iter().flatten() {
                 fs.init(n_opts.out_opts)?;
             }
+            println!("vfs::init: initialized");
             self.initialized.store(true, Ordering::Release);
         }
 
