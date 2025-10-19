@@ -15,6 +15,7 @@ impl FileSystem for Vfs {
     type Handle = VfsHandle;
 
     fn init(&self, opts: FsOptions) -> Result<FsOptions> {
+        println!("vfs::init: enter");
         if self.initialized() {
             error!("vfs is already initialized");
             return Err(Error::from_raw_os_error(libc::EINVAL));
