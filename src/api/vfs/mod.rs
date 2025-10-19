@@ -35,6 +35,7 @@ use crate::api::pseudo_fs::PseudoFs;
 #[cfg(feature = "async-io")]
 mod async_io;
 mod sync_io;
+mod sync_io;
 
 /// Current directory
 pub const CURRENT_DIR_CSTR: &[u8] = b".\0";
@@ -886,7 +887,7 @@ pub mod persist {
                     })?
                     .0;
             let opts = VfsOptions::restore(&state.options)?;
-            println!("Vfs options is empty: {:?}", opts.in_opts.is_empty());
+            println!("[update test] Vfs options is empty: {:?}", opts.in_opts.is_empty());
             self.initialized
                 .store(!opts.in_opts.is_empty(), Ordering::Release);
             self.opts.store(Arc::new(opts));
