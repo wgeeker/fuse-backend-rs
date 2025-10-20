@@ -811,6 +811,7 @@ impl<F: FileSystem + Sync> Server<F> {
     pub(super) fn opendir<S: BitmapSlice>(&self, mut ctx: SrvContext<'_, F, S>) -> Result<usize> {
         let OpenIn { flags, .. } = ctx.r.read_obj().map_err(Error::DecodeMessage)?;
 
+        println!("server opendir: opendir test");
         match self.fs.opendir(ctx.context(), ctx.nodeid(), flags) {
             Ok((handle, opts)) => {
                 let out = OpenOut {

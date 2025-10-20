@@ -243,6 +243,7 @@ impl RealInode {
 
         // Open the directory and load each entry.
         let opendir_res = self.layer.opendir(ctx, self.inode, libc::O_RDONLY as u32);
+        println!("oerlayfs readdir: opendir test");
         let handle = match opendir_res {
             Ok((handle, _)) => handle.unwrap_or_default(),
             // opendir may not be supported if no_opendir is set, so we can ignore this error.
@@ -263,6 +264,7 @@ impl RealInode {
             }
         };
 
+        println!("oerlayfs readdir: opendir failed, call readdir");
         let mut child_names = vec![];
         let mut more = true;
         let mut offset = 0;
