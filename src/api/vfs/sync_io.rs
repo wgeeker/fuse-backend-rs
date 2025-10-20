@@ -23,6 +23,7 @@ impl FileSystem for Vfs {
         let mut n_opts = *self.opts.load().deref().deref();
         #[cfg(target_os = "linux")]
         {
+            println!("init: no open option: {:?}", n_opts.no_open);
             if n_opts.no_open {
                 n_opts.no_open = !(opts & FsOptions::ZERO_MESSAGE_OPEN).is_empty();
                 // We can't support FUSE_ATOMIC_O_TRUNC with no_open
@@ -30,14 +31,17 @@ impl FileSystem for Vfs {
             } else {
                 n_opts.out_opts.remove(FsOptions::ZERO_MESSAGE_OPEN);
             }
+            println!("init: no opendir option: {:?}", n_opts.no_opendir);
             if n_opts.no_opendir {
                 n_opts.no_opendir = !(opts & FsOptions::ZERO_MESSAGE_OPENDIR).is_empty();
             } else {
                 n_opts.out_opts.remove(FsOptions::ZERO_MESSAGE_OPENDIR);
             }
+            println!("init: no_writeback option: {:?}", n_opts.no_writeback);
             if n_opts.no_writeback {
                 n_opts.out_opts.remove(FsOptions::WRITEBACK_CACHE);
             }
+            println!("init: killpriv_v2 option: {:?}", n_opts.killpriv_v2);
             if !n_opts.killpriv_v2 {
                 n_opts.out_opts.remove(FsOptions::HANDLE_KILLPRIV_V2);
             }
@@ -518,10 +522,10 @@ impl FileSystem for Vfs {
     ) -> Result<(Option<VfsHandle>, OpenOptions)> {
         println!("opendir test");
         #[cfg(target_os = "linux")]
-        // if self.opts.load().no_opendir {
-        //     println!("call no_opendir failed");
-        //     return Err(Error::from_raw_os_error(libc::ENOSYS));
-        // }
+        if self.opts.load().no_opendir {
+            println!("call no_opendir failed");
+            return Err(Error::from_raw_os_error(libc::ENOSYS));
+        }
         println!("call no_opendir success");
         match self.get_real_rootfs(inode)? {
             (Left(fs), idata) => fs.opendir(ctx, idata.ino(), flags),

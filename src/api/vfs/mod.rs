@@ -737,6 +737,11 @@ pub mod persist {
 
     impl VfsOptions {
         fn save(&self) -> VfsOptionsState {
+            println!("save: no open option: {:?}", self.no_open);
+            println!("save: no opendir option: {:?}", self.no_opendir);
+            println!("save: no_writeback option: {:?}", self.no_writeback);
+            println!("save: killpriv_v2 option: {:?}", self.killpriv_v2);
+
             VfsOptionsState {
                 in_opts: self.in_opts.bits(),
                 out_opts: self.out_opts.bits(),
@@ -758,6 +763,11 @@ pub mod persist {
         }
 
         fn restore(state: &VfsOptionsState) -> VfsResult<VfsOptions> {
+            println!("restore: no open option: {:?}", state.no_open);
+            println!("restore: no opendir option: {:?}", state.no_opendir);
+            println!("restore: no_writeback option: {:?}", state.no_writeback);
+            println!("restore: killpriv_v2 option: {:?}", state.killpriv_v2);
+
             Ok(VfsOptions {
                 in_opts: FsOptions::from_bits(state.in_opts).ok_or(VfsError::Persist(
                     "Failed to restore VfsOptions.in_opts".to_owned(),
