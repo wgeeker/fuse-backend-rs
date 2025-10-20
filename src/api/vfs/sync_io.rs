@@ -518,10 +518,10 @@ impl FileSystem for Vfs {
     ) -> Result<(Option<VfsHandle>, OpenOptions)> {
         println!("opendir test");
         #[cfg(target_os = "linux")]
-        if self.opts.load().no_opendir {
-            println!("call no_opendir failed");
-            return Err(Error::from_raw_os_error(libc::ENOSYS));
-        }
+        // if self.opts.load().no_opendir {
+        //     println!("call no_opendir failed");
+        //     return Err(Error::from_raw_os_error(libc::ENOSYS));
+        // }
         println!("call no_opendir success");
         match self.get_real_rootfs(inode)? {
             (Left(fs), idata) => fs.opendir(ctx, idata.ino(), flags),
