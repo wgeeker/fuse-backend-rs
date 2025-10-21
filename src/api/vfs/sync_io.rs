@@ -33,6 +33,13 @@ impl FileSystem for Vfs {
             }
             println!("init: no opendir option: {:?}", n_opts.no_opendir);
             if n_opts.no_opendir {
+                println!(
+                    "init: no opendir will update: {:?} {:?} {:?}",
+                    !(opts & FsOptions::ZERO_MESSAGE_OPENDIR).is_empty(),
+                    opts,
+                    FsOptions::ZERO_MESSAGE_OPENDIR
+                );
+
                 n_opts.no_opendir = !(opts & FsOptions::ZERO_MESSAGE_OPENDIR).is_empty();
             } else {
                 n_opts.out_opts.remove(FsOptions::ZERO_MESSAGE_OPENDIR);
