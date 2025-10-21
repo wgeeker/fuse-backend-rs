@@ -148,6 +148,7 @@ impl<F: FileSystem + Sync> Server<F> {
             h.collect(&in_header);
         }
 
+        println!("handle_message: {:?}", in_header.opcode);
         let res = match in_header.opcode {
             x if x == Opcode::Lookup as u32 => self.lookup(ctx),
             x if x == Opcode::Forget as u32 => self.forget(ctx), // No reply.
